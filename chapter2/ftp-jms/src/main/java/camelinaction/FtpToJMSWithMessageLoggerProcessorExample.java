@@ -50,7 +50,7 @@ public class FtpToJMSWithMessageLoggerProcessorExample {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() {
-                from("ftp://localhost/transfer/input?username=otto&password=otto").
+                from("ftp://localhost/transfer/input?username=otto&password=otto&move=.done").
                 process(new MessageLogger()).
                 to("log:like-to-see-all?level=INFO&showAll=true&multiline=true").
                 to("jms:incomingOrders");
