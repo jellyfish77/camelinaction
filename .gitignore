@@ -3,3 +3,4 @@ chapter1/file-copy/data/outbox/
 chapter2/cbr/activemq-data/
 .idea
 *.i??
+activemq-data/

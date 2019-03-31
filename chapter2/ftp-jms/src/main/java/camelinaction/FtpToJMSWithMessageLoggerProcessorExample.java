@@ -52,13 +52,15 @@ public class FtpToJMSWithMessageLoggerProcessorExample {
             public void configure() {
                 from("ftp://localhost/transfer/input?username=otto&password=otto").
                 process(new MessageLogger()).
+                to("log:like-to-see-all?level=INFO&showAll=true&multiline=true").
                 to("jms:incomingOrders");
+                
             }
         });
 
         // start the route and let it do its work
         context.start();
-        Thread.sleep(10000);
+        Thread.sleep(3000);
 
         // stop the CamelContext
         context.stop();
