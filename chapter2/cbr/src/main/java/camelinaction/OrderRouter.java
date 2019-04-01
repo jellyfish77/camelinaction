@@ -26,6 +26,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import otto.utils.MessageLogger;
+
 /**
  * A set of routes that watches a directory for new orders, reads them, converts the order 
  * file into a JMS Message and then sends it to the JMS incomingOrders queue hosted 
@@ -54,11 +56,14 @@ public class OrderRouter {
             @Override
             public void configure() {
                 // load file orders from src/data into the JMS queue
-                from("file:src/data?noop=true").to("jms:incomingOrders");
+                from("file:src/data?noop=true").
+                process(new MessageLogger()).
+                to("jms:incomingOrders");
         
                 // content-based router
-                from("jms:incomingOrders")
-                .choice()
+                from("jms:incomingOrders").
+                process(new MessageLogger()).
+                choice()
                     .when(header("CamelFileName").endsWith(".xml"))
                         .to("jms:xmlOrders")  
                     .when(header("CamelFileName").endsWith(".csv"))
@@ -70,13 +75,16 @@ public class OrderRouter {
                         System.out.println("Received XML order: " 
                                 + exchange.getIn().getHeader("CamelFileName"));   
                     }
-                });                
+                }).
+                process(new MessageLogger());
+                
                 from("jms:csvOrders").process(new Processor() {
                     public void process(Exchange exchange) throws Exception {
                         System.out.println("Received CSV order: " 
                                 + exchange.getIn().getHeader("CamelFileName"));   
                     }
-                });
+                }).
+                process(new MessageLogger());;
             }
         });
 
