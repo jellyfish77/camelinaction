@@ -32,9 +32,7 @@ public class MessageLogger implements Processor {
 		Map props = exchange.getProperties();
 				
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");		
-		java.util.Date dt = formatter.parse(props.get("CamelCreatedTimestamp").toString());
-		System.out.println(dt);
-				
+		java.util.Date dt = formatter.parse(props.get("CamelCreatedTimestamp").toString());						
 		Timestamp ts = Timestamp.valueOf(LocalDateTime.ofInstant(dt.toInstant(), ZoneId.systemDefault()));
 				
 		try {		
@@ -58,7 +56,7 @@ public class MessageLogger implements Processor {
 			st.setString(1, exchange.getIn().getExchange().getExchangeId());
 			st.setString(2, exchange.getIn().getMessageId());
 			st.setString(3, "in");
-			st.setString(4, exchange.getIn().getBody().toString());
+			st.setString(4, exchange.getIn().getBody(String.class));
 			st.addBatch();			
 			System.out.println("Executing statements as batch: " + st);
 			st.executeBatch();			
