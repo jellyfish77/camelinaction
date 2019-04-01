@@ -21,71 +21,70 @@ import javax.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import otto.utils.MessageLogger;
+
 /**
- * A set of routes that watches a directory for new orders, reads them, converts the order 
- * file into a JMS Message and then sends it to the JMS incomingOrders queue hosted 
- * on an embedded ActiveMQ broker instance.
+ * A set of routes that watches a directory for new orders, reads them, converts
+ * the order file into a JMS Message and then sends it to the JMS incomingOrders
+ * queue hosted on an embedded ActiveMQ broker instance.
  * 
  * From there a content-based router is used to send the order to either the
- * xmlOrders or csvOrders queue. If an order file does not end with the
- * csv, csl, or xml extension the order is sent to the badOrders queue. 
+ * xmlOrders or csvOrders queue. If an order file does not end with the csv,
+ * csl, or xml extension the order is sent to the badOrders queue.
  * 
- * Orders on the xmlOrders queue are also filtered such that only orders that do not 
- * have the “test” attribute set will pass through.
+ * Orders on the xmlOrders queue are also filtered such that only orders that do
+ * not have the “test” attribute set will pass through.
  *
  * @author janstey
  *
  */
 public class OrderRouterWithFilter {
 
-    public static void main(String args[]) throws Exception {
-        // create CamelContext
-        CamelContext context = new DefaultCamelContext();
-        
-        // connect to embedded ActiveMQ JMS broker
-        ConnectionFactory connectionFactory = 
-            new ActiveMQConnectionFactory("vm://localhost");
-        context.addComponent("jms",
-            JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+	public static void main(String args[]) throws Exception {
+		// create CamelContext
+		CamelContext context = new DefaultCamelContext();
 
-        // add our route to the CamelContext
-        context.addRoutes(new RouteBuilder() {
-            @Override
-            public void configure() {
-                // load file orders from src/data into the JMS queue
-                from("file:src/data?noop=true").to("jms:incomingOrders");
-        
-                // content-based router
-                from("jms:incomingOrders")
-                .choice()
-                    .when(header("CamelFileName").endsWith(".xml"))
-                        .to("jms:xmlOrders")  
-                    .when(header("CamelFileName").regex("^.*(csv|csl)$"))
-                        .to("jms:csvOrders")
-                    .otherwise()
-                        .to("jms:badOrders");
-                
-                // lets filter out the test messages
-                from("jms:xmlOrders").filter(xpath("/order[not(@test)]"))           
-                .process(new Processor() {
-                    public void process(Exchange exchange) throws Exception {
-                        System.out.println("Received XML order: " 
-                                + exchange.getIn().getHeader("CamelFileName"));   
-                    }
-                });                         
-            }
-        });
+		// connect to embedded ActiveMQ JMS broker
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 
-        // start the route and let it do its work
-        context.start();
-        Thread.sleep(10000);
+		// add our route to the CamelContext
+		context.addRoutes(new RouteBuilder() {
+			@Override
+			public void configure() {
+				// load file orders from src/data into the JMS queue
+				from("file:src/data?noop=true").to("jms:incomingOrders");
 
-        // stop the CamelContext
-        context.stop();
-    }
+				// content-based router
+				from("jms:incomingOrders").
+				choice().
+					when(header("CamelFileName").endsWith(".xml")).to("jms:xmlOrders").
+					when(header("CamelFileName").regex("^.*(csv|csl)$")).to("jms:csvOrders").
+					otherwise().to("jms:badOrders");
+
+				// lets filter out the test messages
+				from("jms:xmlOrders").filter(xpath("/order[not(@test)]")).
+					log(LoggingLevel.INFO, org.slf4j.LoggerFactory.getLogger("com.mycompany.mylogger"), "Processing ${id}, FILENAME: ${header.CamelFileName}").					
+					process(new Processor() {
+					public void process(Exchange exchange) throws Exception {
+						System.out.println("Received XML order: " + exchange.getIn().getHeader("CamelFileName"));
+					}
+					}).
+					process(new MessageLogger());
+			}
+		});
+
+		// start the route and let it do its work
+		context.start();
+		Thread.sleep(10000);
+
+		// stop the CamelContext
+		context.stop();
+	}
 }
