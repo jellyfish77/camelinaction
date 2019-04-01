@@ -15,30 +15,42 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
        http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://camel.apache.org/schema/spring 
        http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-  <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
-    <property name="connectionFactory">
-      <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="vm://localhost" />
-      </bean>
-    </property>
-  </bean>
+	<bean
+		id="jms"
+		class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property
+					name="brokerURL"
+					value="vm://localhost" />
+			</bean>
+		</property>
+	</bean>
 
-  <bean id="downloadLogger" class="camelinaction.DownloadLogger"/>
+	<bean
+		id="downloadLogger"
+		class="camelinaction.DownloadLogger" />
+		
+	<bean
+		id="messageLogger"
+		class="otto.utils.MessageLogger" />
 
-  <camelContext xmlns="http://camel.apache.org/schema/spring">
-    <route>
-      <from uri="file:src/data?noop=true"/>
-      <process ref="downloadLogger"/>
-      <to uri="jms:incomingOrders"/>
-    </route>
-  </camelContext>
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<route>
+			<from uri="file:src/data?noop=true" />
+			<process ref="downloadLogger" />
+			<process ref="messageLogger" />
+			<to uri="jms:incomingOrders" />
+		</route>
+	</camelContext>
 
 </beans>

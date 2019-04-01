@@ -29,18 +29,20 @@ public class MessageLogger implements Processor {
 		String headerQuery = "INSERT INTO headers (" + " message_id," + " name," + " value"
 				+ " ) VALUES (" + "?, ?, ?)";
 				
-		Map props = exchange.getProperties();
-				
+		Map props = exchange.getProperties();		
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");		
 		java.util.Date dt = formatter.parse(props.get("CamelCreatedTimestamp").toString());
-		System.out.println(dt);
-				
+		System.out.println(dt);				
 		Timestamp ts = Timestamp.valueOf(LocalDateTime.ofInstant(dt.toInstant(), ZoneId.systemDefault()));
 				
-		try {		
+		try {
+			// String myDriver = "org.gjt.mm.mysql.Driver";
 			String myUrl = "jdbc:mysql://localhost/integration?autoReconnect=true&useSSL=false";
 			Class.forName("com.mysql.jdbc.Driver"); 
 			Connection conn = DriverManager.getConnection(myUrl, "root", "root");
+			
+			System.out.println("Executing statements as batch: ");
+			
 			conn.setAutoCommit(false);
 			
 			PreparedStatement st = conn.prepareStatement(exchangeQuery);
@@ -50,33 +52,34 @@ public class MessageLogger implements Processor {
 			st.setString(4, exchange.getIn().getExchange().getExchangeId().toString());
 			//st.setDate(5, java.sql.Date.valueOf(dt.toString()));
 			st.setTimestamp(5, ts);
+			System.out.println(st);
 			st.addBatch();
 			st.executeBatch();			
-			System.out.println("Executing statements as batch: " + st);
+			
 			
 			st = conn.prepareStatement(messageQuery);
 			st.setString(1, exchange.getIn().getExchange().getExchangeId());
 			st.setString(2, exchange.getIn().getMessageId());
 			st.setString(3, "in");
-			st.setString(4, exchange.getIn().getBody().toString());
-			st.addBatch();			
-			System.out.println("Executing statements as batch: " + st);
+			st.setString(4, exchange.getIn().getBody().toString());			
+			System.out.println(st);
+			st.addBatch();
 			st.executeBatch();			
 			
 			st = conn.prepareStatement(headerQuery);
 			st.setString(1, exchange.getIn().getMessageId());
 			st.setString(2, "CamelFilePath");
 			st.setString(3, exchange.getIn().getHeader("CamelFilePath").toString());
+			System.out.println(st);
 			st.addBatch();			
-			System.out.println("Executing statements as batch: " + st);
 			st.executeBatch();					
 			
 			st = conn.prepareStatement(headerQuery);
 			st.setString(1, exchange.getIn().getMessageId());
 			st.setString(2, "CamelFileLength");
 			st.setString(3, exchange.getIn().getHeader("CamelFileLength").toString());
-			st.addBatch();			
-			System.out.println("Executing statements as batch: " + st);
+			System.out.println(st);
+			st.addBatch();
 			st.executeBatch();			
 			
 			Calendar c = new GregorianCalendar();
@@ -87,8 +90,8 @@ public class MessageLogger implements Processor {
 			st.setString(1, exchange.getIn().getMessageId());
 			st.setString(2, "CamelFileLastModified");
 			st.setString(3, dateFormat.format(c.getTime()));
-			st.addBatch();			
-			System.out.println("Executing statements as batch: " + st);
+			System.out.println(st);
+			st.addBatch();
 			st.executeBatch();			
 			
 			conn.commit();
