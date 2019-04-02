@@ -1,57 +1,69 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.camelinaction</groupId>
-        <artifactId>chapter2</artifactId>
-        <version>1.0.0</version>
-    </parent>
+	<parent>
+		<groupId>com.camelinaction</groupId>
+		<artifactId>chapter2</artifactId>
+		<version>1.0.0</version>
+	</parent>
 
-    <artifactId>chapter2-multicast</artifactId>
-    <name>Camel in Action :: Chapter 2 :: Multicast</name>
+	<artifactId>chapter2-multicast</artifactId>
+	<name>Camel in Action :: Chapter 2 :: Multicast</name>
 
-  <dependencies>
+	<dependencies>
 
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+		</dependency>
 
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jms</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jms</artifactId>
+		</dependency>
 
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>activemq-all</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
-    
-     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-    </dependency>
-  </dependencies>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+		</dependency>
 
-  <build>
-    <plugins>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 
-      <!-- Allows the example to be run via 'mvn compile exec:java' -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <configuration>
-          <includePluginDependencies>false</includePluginDependencies>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.17</version>
+			<type>jar</type>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+
+			<!-- Allows the example to be run via 'mvn compile exec:java' -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<includePluginDependencies>false</includePluginDependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
 
