@@ -26,6 +26,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import loggers.MessageLogger;
+
 /**
  * A set of routes that watches a directory for new orders, reads them, converts the order 
  * file into a JMS Message and then sends it to the JMS incomingOrders queue hosted 
@@ -80,7 +82,9 @@ public class OrderRouterWithRecipientListBean {
                                 + exchange.getIn().getHeader("CamelFileName"));   
                     }
                 });                
-                from("jms:production").process(new Processor() {
+                from("jms:production")
+                .process(new MessageLogger())
+                .process(new Processor() {
                     public void process(Exchange exchange) throws Exception {
                         System.out.println("Production received order: " 
                                 + exchange.getIn().getHeader("CamelFileName"));   
