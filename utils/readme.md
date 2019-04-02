@@ -1,13 +1,30 @@
-Chapter 2 - Wire Tap Example
+Utils 
 ============================
 
-The first example shows you how to use a Wire Tap from Camel. 
-To run this example, execute the following on the command line:
+I added this project for common util classes.
+-OQ
 
-    mvn compile exec:java -Dexec.mainClass=camelinaction.OrderRouterWithWireTap
+You will need to install to the local maven repo and add as a dependancy in maven projects.
 
-The second example shows you how to use a processor to intercept the message
-from Camel route. To run this example, execute the following on the command line:
+####Add to POM
 
-    mvn compile exec:java -Dexec.mainClass=camelinaction.OrderRouterWithOutputProcessor
+Ideally, it should be something like:
+
+	<dependency>
+		<groupId>com.camelinaction</groupId>
+		<artifactId>utils-loggers</artifactId>
+		<version>1.0.0</version>
+		<scope>compile</scope>
+	</dependency>
+
+But I couldn't get maven to find the jar this way. So instead, I specified the path directly:
+
+	<dependency>
+		<groupId>com.camelinaction</groupId>
+		<artifactId>utils-loggers</artifactId>
+		<version>1.0.0</version>
+		<!-- <scope>compile</scope> -->
+		<scope>system</scope>
+		<systemPath>/home/otto/.m2/repository/com/camelinaction/utils-loggers/1.0.0/utils-loggers-1.0.0.jar</systemPath>			
+	</dependency>
 
