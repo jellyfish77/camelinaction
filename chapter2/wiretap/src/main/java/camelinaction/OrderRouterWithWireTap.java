@@ -24,6 +24,9 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import loggers.MessageLogger;
+import loggers.DownloadLogger;
+
 /**
  * A set of routes that watches a directory for new orders, reads them, converts the order 
  * file into a JMS Message and then sends it to the JMS incomingOrders queue hosted 
@@ -67,7 +70,13 @@ public class OrderRouterWithWireTap {
                     .when(header("CamelFileName").regex("^.*(csv|csl)$"))
                         .to("jms:csvOrders")
                     .otherwise()
-                        .to("jms:badOrders");                    
+                        .to("jms:badOrders");
+                
+                // OQ log the tapped msg
+                from("jms:orderAudit")
+                .process(new DownloadLogger())
+                .process(new MessageLogger());
+                
             }
         });
 

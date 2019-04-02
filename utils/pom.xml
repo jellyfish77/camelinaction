@@ -8,8 +8,11 @@
         <version>1.0.0</version>
     </parent>
     
-    <artifactId>utils-loggers</artifactId>
+    <groupId>com.otto</groupId>
+    <artifactId>utils</artifactId>
     <name>Camel in Action :: Utils :: Loggers</name>
+    <packaging>jar</packaging>
+    <version>1.0.0</version>
 
   <dependencies>
 
