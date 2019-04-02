@@ -22,6 +22,5 @@
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-jms/4.1.7.RELEASE/spring-jms-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-jms/4.1.7.RELEASE/spring-jms-4.1.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-messaging/4.1.7.RELEASE/spring-messaging-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-messaging/4.1.7.RELEASE/spring-messaging-4.1.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-tx/4.1.7.RELEASE/spring-tx-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-tx/4.1.7.RELEASE/spring-tx-4.1.7.RELEASE-sources.jar"/>
-  <classpathentry kind="lib" path="/home/otto/.m2/repository/com/camelinaction/utils-loggers/1.0.0/utils-loggers-1.0.0.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>

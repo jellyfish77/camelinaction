@@ -1,4 +1,4 @@
-package otto.utils;
+package loggers;
 
 import java.sql.*;
 //import java.util.Calendar;

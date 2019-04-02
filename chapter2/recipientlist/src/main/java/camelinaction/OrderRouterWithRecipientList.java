@@ -18,6 +18,7 @@ package camelinaction;
 
 import javax.jms.ConnectionFactory;
 
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
@@ -25,6 +26,12 @@ import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
+
+//import com.camelinaction MessageLogger;
+//loggers.MessageLogger
+//import com.camelinaction;
+
+import loggers.MessageLogger;
 
 /**
  * A set of routes that watches a directory for new orders, reads them, converts the order 
@@ -72,6 +79,7 @@ public class OrderRouterWithRecipientList {
                         .to("jms:badOrders");        
                 
                 from("jms:xmlOrders")
+                .process(new MessageLogger())
                 .setHeader("customer", xpath("/order/@customer"))
                 .process(new Processor() {
                     public void process(Exchange exchange) throws Exception {
