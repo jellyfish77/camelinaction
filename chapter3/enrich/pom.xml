@@ -11,8 +11,8 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<artifactId>chapter3-transform</artifactId>
-	<name>Camel in Action :: Chapter 3 :: Data Transformation</name>
+	<artifactId>chapter3-enrich</artifactId>
+	<name>Camel in Action :: Chapter 3 :: Enrich</name>
 
 	<dependencies>
 
@@ -26,6 +26,48 @@
 			<artifactId>camel-spring</artifactId>
 		</dependency>
 
+		<!-- when using JAXB data format -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jaxb</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- when using CSV data format -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-csv</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- when using Bindy data format -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-bindy</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- when using JSON data format -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jackson</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- is used when testing JSON to simulate a http server -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jetty</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- when using Velocity templating -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-velocity</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test-spring</artifactId>
@@ -35,7 +77,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<!-- <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -49,6 +91,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 
 		<!--jellfish77 -->
 
@@ -65,6 +108,12 @@
 		<dependency>
 			<groupId>com.otto</groupId>
 			<artifactId>utils</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.camelinaction</groupId>
+			<artifactId>chapter3-transform</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 

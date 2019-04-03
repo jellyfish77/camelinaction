@@ -17,6 +17,7 @@
         <module>transform</module>
         <module>order</module>
         <module>converter</module>
+        <module>enrich</module>
     </modules>
 </project>
 

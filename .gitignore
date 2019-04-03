@@ -4,3 +4,6 @@ chapter2/cbr/activemq-data/
 .idea
 *.i??
 activemq-data/
+*.camelLock
+chapter3/enrich/src/data/*.csv
+

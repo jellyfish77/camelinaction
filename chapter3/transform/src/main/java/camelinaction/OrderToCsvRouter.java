@@ -21,7 +21,7 @@ import loggers.DownloadLogger;
  * Router using quartz scheduler
  * 
  */
-@Author(name = "OQ")
+@Author(name = "jellyfish77")
 public class OrderToCsvRouter {
 
 	public static void main(String args[]) throws Exception {
