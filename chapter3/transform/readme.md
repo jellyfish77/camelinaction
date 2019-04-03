@@ -1,7 +1,8 @@
 # Chapter 3 - Transformation ##
 
 ## Unit Tests ##
-### OrderToCsvProcessor ###
+
+### OrderToCsvProcessor Tests###
 
 A processor which translates an order in custom inhouse format to a CSV format.
 
@@ -13,11 +14,32 @@ Unit test for OrderToCsvProcessor using Spring DSL:
 	
 	mvn test -Dtest.mainClass=camelinaction.SpringOrderToCsvProcessorTest
 
+### OrderToCsvBean Tests ###
+
+	mvn test -Dtest=OrderToCsvBeanTest
+	mvn test -Dtest=SpringOrderToCsvBeanTest
+	
+###Transform Test
+
+Transform using Spring DSL and Bean:
+
+	mvn test -Dtest=SpringTransformScriptTest
+
+Transform using Spring DSL and script:
+
+	mvn test -Dtest=SpringTransformMethodTest
+	
+Transform using Java DSL:
+	
+	mvn test -Dtest=TransformTest
+
 ## Main Classes ##
 
 ### OrderToCsvRouter ###
 
-OQ - Read from FTP on a schedule (using quartz2 component) and process file using Java DSL 'OrderToCsvProcessor'.
+This is a class I added to implement the CsvProcessor using  a Java DSL.
+
+Read from FTP on a schedule (using quartz2 component) and process file using Java DSL 'OrderToCsvProcessor'.
 
 Chron:
 ![](http://2.bp.blogspot.com/--d9V7XzD9aU/UgzRLNXIgSI/AAAAAAAAAcM/cIzUHV665v0/s320/cron.png) 
