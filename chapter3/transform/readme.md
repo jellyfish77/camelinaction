@@ -1,4 +1,4 @@
-# Chapter 3 - Transformation ##
+# Chapter 3 - Transformation
 
 ## Unit Tests ##
 
