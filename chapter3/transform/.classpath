@@ -1,9 +1,12 @@
 <classpath>
   <classpathentry kind="src" path="src/test/java" output="target/test-classes" including="**/*.java"/>
   <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/activemq/activemq-all/5.11.2/activemq-all-5.11.2.jar" sourcepath="M2_REPO/org/apache/activemq/activemq-all/5.11.2/activemq-all-5.11.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-core/2.15.6/camel-core-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-core/2.15.6/camel-core-2.15.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-jms/2.15.6/camel-jms-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-jms/2.15.6/camel-jms-2.15.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-spring/2.15.6/camel-spring-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-spring/2.15.6/camel-spring-2.15.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-test/2.15.6/camel-test-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-test/2.15.6/camel-test-2.15.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-test-spring/2.15.6/camel-test-spring-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-test-spring/2.15.6/camel-test-spring-2.15.6-sources.jar"/>
@@ -13,6 +16,7 @@
   <classpathentry kind="var" path="M2_REPO/com/sun/xml/bind/jaxb-impl/2.2.11/jaxb-impl-2.2.11.jar" sourcepath="M2_REPO/com/sun/xml/bind/jaxb-impl/2.2.11/jaxb-impl-2.2.11-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.11/junit-4.11.jar" sourcepath="M2_REPO/junit/junit/4.11/junit-4.11-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar" sourcepath="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.17/mysql-connector-java-5.1.17.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/4.1.7.RELEASE/spring-aop-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-aop/4.1.7.RELEASE/spring-aop-4.1.7.RELEASE-sources.jar"/>
@@ -20,7 +24,10 @@
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/4.1.7.RELEASE/spring-context-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-context/4.1.7.RELEASE/spring-context-4.1.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/4.1.7.RELEASE/spring-core-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-core/4.1.7.RELEASE/spring-core-4.1.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-expression/4.1.7.RELEASE/spring-expression-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-expression/4.1.7.RELEASE/spring-expression-4.1.7.RELEASE-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-jms/4.1.7.RELEASE/spring-jms-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-jms/4.1.7.RELEASE/spring-jms-4.1.7.RELEASE-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-messaging/4.1.7.RELEASE/spring-messaging-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-messaging/4.1.7.RELEASE/spring-messaging-4.1.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-test/4.1.7.RELEASE/spring-test-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-test/4.1.7.RELEASE/spring-test-4.1.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-tx/4.1.7.RELEASE/spring-tx-4.1.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-tx/4.1.7.RELEASE/spring-tx-4.1.7.RELEASE-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/otto/utils/1.0.0/utils-1.0.0.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
