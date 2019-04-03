@@ -21,11 +21,11 @@ Unit test for OrderToCsvProcessor using Spring DSL:
 	
 ###Transform Test
 
-Transform using Spring DSL and Bean:
+Transform using Spring DSL and and Simple scripting language:
 
 	mvn test -Dtest=SpringTransformScriptTest
 
-Transform using Spring DSL and script:
+Transform using Spring DSL and Bean:
 
 	mvn test -Dtest=SpringTransformMethodTest
 	
