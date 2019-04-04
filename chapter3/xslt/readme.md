@@ -2,6 +2,8 @@
 
 ## TransformFileXslt Class
 
+![](https://dzone.com/storage/temp/6887829-camel1.png) 
+
 This class will:
 
 1. Poll for file 'message.xml' at src/data/input
