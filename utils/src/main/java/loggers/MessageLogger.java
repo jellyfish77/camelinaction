@@ -23,8 +23,9 @@ public class MessageLogger implements Processor {
 		String exchangeQuery = "INSERT INTO exchanges (" + " server," + " application," + " pattern," + " exchange_id," + " created_timestamp"
 				+ " ) VALUES (" + "?, ?, ?, ?, ?)";
 		
-		String messageQuery = "INSERT INTO messages (" + " exchange_id," + " message_id," + " direction," + " payload"
-				+ " ) VALUES (" + "?, ?, ?, ?)";
+		String messageQuery = "INSERT INTO messages (" + " exchange_id," + " message_id," + " direction," + 
+				" payload, " + " breadcrumb_id, " + " jms_destination," + " file_path," + " file_path_produced"  
+				+ " ) VALUES (" + "?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		String headerQuery = "INSERT INTO headers (" + " message_id," + " name," + " value"
 				+ " ) VALUES (" + "?, ?, ?)";
@@ -40,7 +41,7 @@ public class MessageLogger implements Processor {
 			Class.forName("com.mysql.jdbc.Driver"); 
 			Connection conn = DriverManager.getConnection(myUrl, "root", "root");
 			
-			System.out.println("Executing statements as batch: ");
+			//System.out.println("Executing statements as batch: ");
 			
 			conn.setAutoCommit(false);
 			
@@ -51,17 +52,24 @@ public class MessageLogger implements Processor {
 			st.setString(4, exchange.getIn().getExchange().getExchangeId().toString());
 			//st.setDate(5, java.sql.Date.valueOf(dt.toString()));
 			st.setTimestamp(5, ts);
-			System.out.println(st);
+			//System.out.println(st);
 			st.addBatch();
 			st.executeBatch();			
-			
-			
+						
+			String fnp = "";
+			if(exchange.getIn().getHeader("CamelFileNameProduced") == null) { fnp = ""; } else { fnp =exchange.getIn().getHeader("CamelFileNameProduced").toString(); }
+							
 			st = conn.prepareStatement(messageQuery);
 			st.setString(1, exchange.getIn().getExchange().getExchangeId());
 			st.setString(2, exchange.getIn().getMessageId());
 			st.setString(3, "in");
-			st.setString(4, exchange.getIn().getBody(String.class));			
-			System.out.println(st);
+			st.setString(4, exchange.getIn().getBody(String.class));
+			st.setString(5, exchange.getIn().getHeader("breadcrumbId").toString());
+			st.setString(6, exchange.getIn().getHeader("JMSDestination").toString());
+			st.setString(7, exchange.getIn().getHeader("CamelFilePath").toString());
+			st.setString(8, fnp);
+			//st.setString(8, "goober");
+			//System.out.println(st);
 			st.addBatch();
 			st.executeBatch();			
 			
@@ -69,7 +77,7 @@ public class MessageLogger implements Processor {
 			st.setString(1, exchange.getIn().getMessageId());
 			st.setString(2, "CamelFilePath");
 			st.setString(3, exchange.getIn().getHeader("CamelFilePath").toString());
-			System.out.println(st);
+			//System.out.println(st);
 			st.addBatch();			
 			st.executeBatch();					
 			
@@ -77,7 +85,7 @@ public class MessageLogger implements Processor {
 			st.setString(1, exchange.getIn().getMessageId());
 			st.setString(2, "CamelFileLength");
 			st.setString(3, exchange.getIn().getHeader("CamelFileLength").toString());
-			System.out.println(st);
+			//System.out.println(st);
 			st.addBatch();
 			st.executeBatch();			
 			
@@ -89,7 +97,7 @@ public class MessageLogger implements Processor {
 			st.setString(1, exchange.getIn().getMessageId());
 			st.setString(2, "CamelFileLastModified");
 			st.setString(3, dateFormat.format(c.getTime()));
-			System.out.println(st);
+			//System.out.println(st);
 			st.addBatch();
 			st.executeBatch();			
 			
