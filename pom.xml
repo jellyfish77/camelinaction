@@ -461,7 +461,7 @@
         <version>${spring-version}</version>
       </dependency>
       
-      <!-- OQ added for quartz2 -->
+      <!-- jellyfish77 added for quartz2 -->
 	<dependency>
 		<groupId>org.apache.camel</groupId>
 		<artifactId>camel-quartz2</artifactId>

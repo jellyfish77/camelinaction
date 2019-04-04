@@ -18,6 +18,7 @@
         <module>order</module>
         <module>converter</module>
         <module>enrich</module>
+        <module>xslt</module>
     </modules>
 </project>
 

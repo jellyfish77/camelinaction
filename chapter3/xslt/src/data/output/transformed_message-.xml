@@ -1,0 +1,10 @@
+<rentalProperties>
+<property contact="1">
+<type>House </type>
+<price>420</price>
+<address>1 Wavell Street,Box Hill,VIC, Australia</address>
+<numberOfBedrooms>3</numberOfBedrooms>
+<numberOfBathrooms>1</numberOfBathrooms>
+<garage>1</garage>
+</property>
+</rentalProperties>

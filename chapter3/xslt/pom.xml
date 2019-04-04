@@ -11,8 +11,8 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<artifactId>chapter3-enrich</artifactId>
-	<name>Camel in Action :: Chapter 3 :: Enrich</name>
+	<artifactId>chapter3-xslt</artifactId>
+	<name>Camel in Action :: Chapter 3 :: XSLT</name>
 
 	<dependencies>
 
@@ -92,7 +92,6 @@
 			<scope>test</scope>
 		</dependency>
 
-
 		<!--jellfish77 -->
 
 		<dependency>
@@ -111,13 +110,6 @@
 			<version>1.0.0</version>
 		</dependency>
 
-		<!-- jellfish77: this project uses a class from transform project -->
-		<dependency>
-			<groupId>com.camelinaction</groupId>
-			<artifactId>chapter3-transform</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-quartz2</artifactId>
@@ -126,7 +118,7 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-ftp</artifactId>
-			<version>${camel-version}</version>
+			<!--<version>${camel-version}</version> -->
 		</dependency>
 
 	</dependencies>
