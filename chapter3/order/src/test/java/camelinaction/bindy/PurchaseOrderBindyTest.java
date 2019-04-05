@@ -27,47 +27,75 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.dataformat.BindyType;
 import org.junit.Test;
+import loggers.MessageLogger;
+
+import org.apache.camel.component.jms.JmsComponent;
+import javax.jms.ConnectionFactory;
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 /**
  * @version $Revision$
  */
 public class PurchaseOrderBindyTest extends TestCase {
 
-    @Test
-    public void testBindy() throws Exception {
-        final Locale locale = Locale.getDefault();
+	@Test
+	public void testBindy() throws Exception {
+		final Locale locale = Locale.getDefault();
 
-        try {
-            Locale.setDefault(Locale.US);
-            CamelContext context = new DefaultCamelContext();
-            context.addRoutes(createRoute());
-            context.start();
+		try {
+			Locale.setDefault(Locale.US);
+			CamelContext context = new DefaultCamelContext();
+			context.addRoutes(createRoute());
+			context.addRoutes(createLoggerRoute());
 
-            MockEndpoint mock = context.getEndpoint("mock:result", MockEndpoint.class);
-            mock.expectedBodiesReceived("Camel in Action,39.95,1\n");
+			// connect to embedded ActiveMQ JMS broker
+			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+			context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 
-            PurchaseOrder order = new PurchaseOrder();
-            order.setAmount(1);
-            order.setPrice(new BigDecimal("39.95"));
-            order.setName("Camel in Action");
+			context.start();
 
-            ProducerTemplate template = context.createProducerTemplate();
-            template.sendBody("direct:toCsv", order);
+			MockEndpoint mock = context.getEndpoint("mock:result", MockEndpoint.class);
+			mock.expectedBodiesReceived("Camel in Action,39.95,1\n");
 
-            mock.assertIsSatisfied();
-	} finally {
-            Locale.setDefault(locale);
+			PurchaseOrder order = new PurchaseOrder();
+			order.setAmount(1);
+			order.setPrice(new BigDecimal("39.95"));
+			order.setName("Camel in Action");
+
+			ProducerTemplate template = context.createProducerTemplate();
+			template.sendBody("direct:toCsv", order);
+
+			Thread.sleep(5000);
+			
+			mock.assertIsSatisfied();
+			
+			context.stop();
+			
+		} finally {
+			Locale.setDefault(locale);
+		}
 	}
-    }
 
-    public RouteBuilder createRoute() {
+	public RouteBuilder createRoute() {
         return new RouteBuilder() {
             public void configure() throws Exception {
                 from("direct:toCsv")
-                        .marshal().bindy(BindyType.Csv, "camelinaction.bindy")
-                        .to("mock:result");
+                .marshal().bindy(BindyType.Csv, "camelinaction.bindy")
+                .wireTap("jms:ch03.bindy.tap00.marshaledOrderAudit")                
+                .to("mock:result")
+                ;                
             }
         };
-    }
+	}
+
+	public RouteBuilder createLoggerRoute() {
+		return new RouteBuilder() {
+			public void configure() throws Exception {
+				from("jms:ch03.bindy.tap00.marshaledOrderAudit")
+				.process(new MessageLogger())
+				;
+			}
+		};
+	}
 
 }
