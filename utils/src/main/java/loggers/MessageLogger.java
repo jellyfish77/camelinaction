@@ -56,9 +56,10 @@ public class MessageLogger implements Processor {
 			st.addBatch();
 			st.executeBatch();			
 						
-			String fnp = "";
-			if(exchange.getIn().getHeader("CamelFileNameProduced") == null) { fnp = ""; } else { fnp =exchange.getIn().getHeader("CamelFileNameProduced").toString(); }
+			String fp = ""; if(exchange.getIn().getHeader("CamelFilePath") == null) { fp = ""; } else { fp =exchange.getIn().getHeader("CamelFilePath").toString(); }
+			String fnp = ""; if(exchange.getIn().getHeader("CamelFileNameProduced") == null) { fnp = ""; } else { fnp =exchange.getIn().getHeader("CamelFileNameProduced").toString(); }
 							
+			
 			st = conn.prepareStatement(messageQuery);
 			st.setString(1, exchange.getIn().getExchange().getExchangeId());
 			st.setString(2, exchange.getIn().getMessageId());
@@ -66,7 +67,7 @@ public class MessageLogger implements Processor {
 			st.setString(4, exchange.getIn().getBody(String.class));
 			st.setString(5, exchange.getIn().getHeader("breadcrumbId").toString());
 			st.setString(6, exchange.getIn().getHeader("JMSDestination").toString());
-			st.setString(7, exchange.getIn().getHeader("CamelFilePath").toString());
+			st.setString(7, fp);
 			st.setString(8, fnp);
 			//st.setString(8, "goober");
 			//System.out.println(st);
