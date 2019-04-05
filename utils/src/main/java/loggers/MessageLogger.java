@@ -69,7 +69,7 @@ public class MessageLogger implements Processor {
 			st.setString(6, jms);
 			st.setString(7, fp);
 			st.setString(8, fnp);
-			System.out.println(st);
+			//System.out.println(st);
 			st.addBatch();
 			st.executeBatch();			
 			
