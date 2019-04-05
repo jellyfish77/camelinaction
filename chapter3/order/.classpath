@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-bindy/2.15.6/camel-bindy-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-bindy/2.15.6/camel-bindy-2.15.6-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-core/2.15.6/camel-core-2.15.6.jar" sourcepath="M2_REPO/org/apache/camel/camel-core/2.15.6/camel-core-2.15.6-sources.jar"/>
