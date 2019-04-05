@@ -40,3 +40,4 @@ A reverse example of how to use Bindy to transform a CSV record into a Java obje
 
 	mvn test -Dtest=PurchaseOrderUnmarshalBindyTest
 	
+

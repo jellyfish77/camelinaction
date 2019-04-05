@@ -46,6 +46,9 @@ public class PurchaseOrderCsvSpringTest extends CamelSpringTestSupport {
         assertEquals("Activemq in Action", line2.get(0));
         assertEquals("4495", line2.get(1));
         assertEquals("2", line2.get(2));
+        
+		Thread.sleep(5000);			
+				
     }
 
     @Override
