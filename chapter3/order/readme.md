@@ -26,7 +26,17 @@ Invoke Spring Test:
 
 ## Camel Bindy Data Format using Java DSL
 
-Camel in Action p. 80
+Camel in Action p. 82
+
+Marshal the order model to CSV using Bind
 
 	mvn test -Dtest=PurchaseOrderBindyTest
 
+## Camel Bindy Data Format using Java DSL
+
+Camel in Action p. 80
+
+A reverse example of how to use Bindy to transform a CSV record into a Java object.
+
+	mvn test -Dtest=PurchaseOrderUnmarshalBindyTest
+	
