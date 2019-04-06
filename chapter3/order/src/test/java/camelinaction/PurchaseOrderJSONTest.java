@@ -53,6 +53,8 @@ public class PurchaseOrderJSONTest extends CamelTestSupport {
         assertTrue(out.contains("Camel in Action"));
     }
 
+    // sets up a (REST) web service at /order/service listening for requests and 
+    // responding with ordeService bean marshaled to json with Jackson
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
@@ -67,6 +69,7 @@ public class PurchaseOrderJSONTest extends CamelTestSupport {
 
     public static class OrderServiceBean {
 
+    	// bind 'HTTP get' param "id" to method param 'id'
         public PurchaseOrder lookup(@Header("id") String id) {
             LOG.info("Finding purchase order for id " + id);
             // just return a fixed response

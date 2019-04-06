@@ -40,4 +40,11 @@ A reverse example of how to use Bindy to transform a CSV record into a Java obje
 
 	mvn test -Dtest=PurchaseOrderUnmarshalBindyTest
 	
+## Camel Jackson JSON Conversion using Java DSL
+
+Camel in Action p. 83
+
+Sets up a (REST) web service at /order/service listening for requests and responding with orderService bean marshaled to json with Jackson
+
+	mvn test -Dtest=PurchaseOrderJSONTest
 
