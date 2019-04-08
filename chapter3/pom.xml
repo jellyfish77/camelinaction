@@ -19,6 +19,7 @@
         <module>converter</module>
         <module>enrich</module>
         <module>xslt</module>
+        <module>csvtoxml</module>
     </modules>
 </project>
 

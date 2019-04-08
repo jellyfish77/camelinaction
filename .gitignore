@@ -7,3 +7,4 @@ activemq-data/
 *.camelLock
 chapter3/enrich/src/data/*.csv
 *.dat
+output/
