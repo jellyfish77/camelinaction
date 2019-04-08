@@ -48,3 +48,9 @@ Sets up a (REST) web service at /order/service listening for requests and respon
 
 	mvn test -Dtest=PurchaseOrderJSONTest
 
+
+## Camel Custom Data Format 
+
+Camel in Action p. 86
+
+	mvn test -Dtest=ReverseDataFormatTest
