@@ -7,18 +7,18 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TransformCsvMoviesToXml implements Processor {
+public class MovieCsvToXMLProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		Logger LOG = LoggerFactory.getLogger(TransformCsvMoviesToXml.class);
+		Logger LOG = LoggerFactory.getLogger(MovieCsvToXMLProcessor.class);
 		String myString = exchange.getIn().getBody(String.class);
 		String[] lineSeparator = myString.split(System.getProperty("line.separator"));
 		StringBuffer sb = new StringBuffer();
-		LOG.info("TransformCsvMoviesToXml processor starting...");
-		sb.append("<Movies>");
+		//LOG.info("TransformCsvMoviesToXml processor starting...");
+		//sb.append("<Movies>");
 		for (String lineData : lineSeparator) {
-			String[] commaSeparator = lineData.split(",");
+			String[] commaSeparator = lineData.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); // handle quotes as text-delimiter
 			sb.append("<Movie>");
 			sb.append("<Title>" + commaSeparator[11].toString().trim() + "</Title>");
 			sb.append("<Gross>" + commaSeparator[8].toString().trim() + "</Gross>");
@@ -64,8 +64,8 @@ public class TransformCsvMoviesToXml implements Processor {
 			sb.append("</Cast>");
 			sb.append("</Movie>");
 		}
-		sb.append("</Movies>");		
-		LOG.info("TransformCsvMoviesToXml processor complete");
+		//sb.append("</Movies>");		
+		//LOG.info("TransformCsvMoviesToXml processor complete");
 		exchange.getIn().setBody(sb.toString());
 	}
 	
