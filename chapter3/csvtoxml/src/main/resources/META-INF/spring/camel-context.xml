@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file 
+	distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to You under 
+	the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may 
+	obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to 
+	in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF 
+	ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under 
+	the License. -->
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring 
+       http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<bean
+		id="jms"
+		class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property
+					name="brokerURL"
+					value="vm://localhost" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean
+		id="downloadLogger"
+		class="loggers.DownloadLogger" />
+
+	<bean
+		id="messageLogger"
+		class="loggers.MessageLogger" />
+
+	<bean
+		id="movieCsvToXMLProcessor"
+		class="csvtoxml.javadsl.MovieCsvToXMLProcessor" />
+		
+	<bean id="escapeCharsBean" class="csvtoxml.springdsl.EscapeSpecialCharsBean"/>
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+
+		<route id="inputCsvFileRoute">
+			<from
+				uri="file:src/data/input?delay=60s&amp;fileName=movie_metadata.csv&amp;maxMessagesPerPoll=1&amp;noop=true&amp;idempotent=true" />
+			<wireTap uri="jms:ch03.movies.tap00.inputFileAudit" />
+			<transform> 
+  				<method bean="escapeCharsBean" method="escapeSpecialChars"/> 
+			</transform> 
+			<to uri="file:src/data/output?fileName=sanitised_movie_metadata.csv"/>			
+			<split streaming="true">
+				<tokenize token="\n" />
+				<process ref="movieCsvToXMLProcessor" />
+				<to uri="jms:transformedMessage" />
+			</split>
+			<log
+				message="Finished transformation of inbound CSV file: ${header.CamelFileName}"
+				loggingLevel="INFO"
+				marker="CSVComplete" />
+			<stop />
+		</route>
+
+		<route id="transformedMessageRoute">
+			<from uri="jms:transformedMessage" />
+			<wireTap uri="jms:ch03.movies.tap01.tranformedMesageAudit" />
+			<choice>
+				<when>
+					<xpath>/Movie/ImdbScore>=8.5</xpath>
+					<to uri="jms:ch03.movies.queue.greatMovie" />					
+					<stop />
+				</when>
+				<when>
+					<xpath>/Movie/ImdbScore>=7.5</xpath>
+					<to uri="jms:ch03.movies.queue.goodMovie" />
+				</when>
+				<when>
+					<xpath>/Movie/ImdbScore>=6</xpath>
+					<to uri="jms:ch03.movies.queue.okMovie" />
+				</when>
+				<when>
+					<xpath>/Movie/ImdbScore>=5</xpath>
+					<to uri="jms:ch03.movies.queue.poorMovie" />
+				</when>
+				<otherwise>
+					<to uri="jms:ch03.movies.queue.badMovie" />
+				</otherwise>
+			</choice>
+		</route>
+
+		<route id="inputFileAudit">
+			<from uri="jms:ch03.movies.tap00.inputFileAudit" />			
+			<process ref="messageLogger" />
+		</route>
+
+		<route id="tranformedMesageAudit">
+			<from uri="jms:ch03.movies.tap01.tranformedMesageAudit" />
+			<!-- <log message="${body}" loggingLevel="INFO" /> -->
+			<process ref="messageLogger" />
+		</route>
+
+		<route id="greatMovieRoute">
+			<from uri="jms:ch03.movies.queue.greatMovie" />
+			<!-- <log message="${body}" loggingLevel="INFO" /> --> 
+			<process ref="messageLogger" />
+		</route>
+
+		<route id="goodMovieRoute">
+			<from uri="jms:ch03.movies.queue.goodMovie" />
+			<process ref="messageLogger" />
+		</route>
+
+		<route id="okMovieRoute">
+			<from uri="jms:ch03.movies.queue.okMovie" />
+			<process ref="messageLogger" />
+		</route>
+
+		<route id="poorMovieRoute">
+			<from uri="jms:ch03.movies.queue.poorMovie" />
+			<process ref="messageLogger" />
+		</route>
+
+		<route id="badMovieRoute">
+			<from uri="jms:ch03.movies.queue.badMovie" />
+			<process ref="messageLogger" />
+		</route>
+
+	</camelContext>
+
+</beans>

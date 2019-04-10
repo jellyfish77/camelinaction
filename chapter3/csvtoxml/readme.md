@@ -1,10 +1,16 @@
 # CSVToXML
 
-## CSVToXMLTransformation
+## CSVToXMLTransformation (Java DSL)
 	
 Uses Java DSL routes together with a Java Processor (implements Processor interface) to transform CSV to XML.
 	
 	mvn clean compile exec:java -Dexec.mainClass=csvtoxml.javadsl.CSVToXMLTransformation
+	
+## Spring DSL Implementation
+
+Identical functionality to the Java DSL version above, done using custom XML extensions (Spring DSL).
+
+	mvn clean compile camel:run
 	
 ## Test Data
 

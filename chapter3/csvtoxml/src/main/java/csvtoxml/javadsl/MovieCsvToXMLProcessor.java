@@ -20,7 +20,7 @@ public class MovieCsvToXMLProcessor implements Processor {
 		for (String lineData : lineSeparator) {
 			String[] commaSeparator = lineData.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); // handle quotes as text-delimiter
 			sb.append("<Movie>");
-			sb.append("<Title>" + commaSeparator[11].toString().trim() + "</Title>");
+			sb.append("<Title>" + commaSeparator[11].toString().trim().replaceAll("\u00a0", "") + "</Title>");
 			sb.append("<Gross>" + commaSeparator[8].toString().trim() + "</Gross>");
 			sb.append("<Genres>"  + processValues(commaSeparator[9].toString().trim(), "|", "Genre") + "</Genres>");			
 			sb.append("<Color>" + commaSeparator[0].toString().trim() + "</Color>");
